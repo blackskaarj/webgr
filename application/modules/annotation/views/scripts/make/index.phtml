@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--  BEGIN Browser History required section -->
+<link rel="stylesheet" type="text/css" href="scripts/history/history.css" />
+<!--  END Browser History required section -->
+
+<title>WebGR Online-Annotating-Tool</title>
+<script src="/scripts/AC_OETags.js" language="javascript"></script>
+
+<!--  BEGIN Browser History required section -->
+<script src="/scripts/history/history.js" language="javascript"></script>
+<!--  END Browser History required section -->
+
+<style>
+body { margin: 0px; overflow:hidden }
+</style>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// Globals
+// Major version of Flash required
+var requiredMajorVersion = 9;
+// Minor version of Flash required
+var requiredMinorVersion = 0;
+// Minor version of Flash required
+var requiredRevision = 124;
+// -----------------------------------------------------------------------------
+// -->
+</script>
+</head>
+
+<body scroll="no">
+<?php if ($this->error) { ?>
+<h2 style="color: red"><?php echo $this->message ?></h2>
+<ul>
+    <?php foreach ($this->coordinators as $coordinator) {?>
+        <li><?php echo $coordinator[User::COL_FIRSTNAME] . ' ' . $coordinator[User::COL_LASTNAME] . ' ' . $coordinator[User::COL_EMAIL] ?></li>        
+    <?php }?>
+</ul>
+<?php }else {?>
+  	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+			id="WebGRtest" width="100%" height="100%"
+			codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
+			<param name="movie" value="/scripts/WebGRtest.swf" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#808080" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<embed src="/scripts/AnnotationGui.swf?version=1.1.0&subject=<?php echo $this->subject ?>" quality="high" bgcolor="#808080"
+				width="100%" height="100%" name="WebGRtest" align="middle"
+				play="true"
+				loop="false"
+				quality="high"
+				allowScriptAccess="sameDomain"
+				type="application/x-shockwave-flash"
+				pluginspage="http://www.adobe.com/go/getflashplayer">
+			</embed>
+	</object>
+<?php }?>
+</body>
+
+</html>
+

@@ -1,0 +1,48 @@
+<h2>List of fishes</h2>
+<?php if (count($this->paginator)){ ?>
+<form action="<?php echo $this->callingAction?>" method="post">
+<table>
+	<tr>
+		<th></th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+		<th>Actions</th>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<tr>
+		<td><?php if ($this->callingAction == "/ce/edit/addimages"){?> <input
+			type="checkbox" name="<?php echo Image::COL_ID?>[]"
+			value="<?php echo $item[Image::COL_ID]?>"> <?php } ?></td>
+			<?php foreach ($this->paginator->getHeader() as $column) { ?>
+		<td><?php echo $item[$column['raw']]; ?></td>
+		<?php }?>
+		<?php if ($this->userRole == 'admin'||$this->userRole == 'ws-manager'||$this->userRole == 'datamanager'){ ?>
+		<td><a
+			href="/fish/edit/update/<?php echo Fish::COL_ID?>/<?php echo $item[Fish::COL_ID]?>">Edit
+		fish data</a><br>
+		<?php if ($this->callingAction == "user/edit/myfishes"){
+			if (Default_SimpleQuery::isValueInTableColumn($item[Fish::COL_ID], new Image(), Image::COL_FISH_ID)) {
+				echo '(Fish assigned to image)'; } else {?> <a
+			href="javascript:confirmDelete('Do you really want to delete the fish:\r\n<?php echo $item[Fish::COL_SAMPLE_CODE]?> ?','/fish/edit/delete/<?php echo Fish::COL_ID."/".$item[Fish::COL_ID]?>')">Delete
+		fish</a><br>
+		<?php }} ?></td>
+		<?php } ?>
+	</tr>
+	<?php } ?>
+	</tr>
+	<?php if ($this->callingAction == "/ce/edit/addimages"){?>
+	<tr>
+		<td></td>
+		<td><input type="submit" id="submit" value="add images"
+			name="add images"></td>
+	</tr>
+	<?php } ?>
+</table>
+</form>
+	<?php echo $this->paginationControl($this->paginator, $this->scrollingStyle); ?>
+	<?php }else{ ?>
+Nothing found! There are no results for your search.
+	<?php }?>

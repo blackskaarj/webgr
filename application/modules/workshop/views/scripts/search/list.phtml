@@ -1,0 +1,41 @@
+<h2>workshop list</h2>
+<?php if (count($this->paginator)){?>
+<table border="solid">
+	<tr>
+		<th></th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<tr>
+		<td><a
+			href="/workshop/search/details/<?php echo Workshop::COL_ID."/".$item[Workshop::COL_ID]?>/">info</a><br>
+			<?php if ($this->userRole == 'admin' || AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId($item[Workshop::COL_ID])){ ?>
+		<a
+			href="/workshop/edit/update/<?php echo Workshop::COL_ID."/".$item[Workshop::COL_ID]?>/">edit</a><br>
+			<?php } ?> <?php if ($this->userRole == 'admin') { ?> <?php if (Default_SimpleQuery::isValueInTableColumn($item[Workshop::COL_ID], new CalibrationExercise(), CalibrationExercise::COL_WORKSHOP_ID)) { ?>
+		(delete not available)<br>
+		<?php } else { ?> <a
+			href="javascript:confirmDelete('Do you really want to delete the workshop and associated files:\r\n<?php echo $item[Workshop::COL_NAME]?> ?','/workshop/edit/delete/<?php echo Workshop::COL_ID."/".$item[Workshop::COL_ID]?>')">delete</a><br>
+			<?php } ?> <?php } ?>
+			<?php if ($this->userRole == 'admin') { ?> 
+			<a
+			href="javascript:confirmDelete('Do you really want to delete the workshop and associated files:\r\n<?php echo $item[Workshop::COL_NAME]?> ?','/workshop/edit/deleterecursive/<?php echo Workshop::COL_ID."/".$item[Workshop::COL_ID]?>')">RAW DELETE</a><br>
+			<?php } ?>
+			</td>
+			<?php foreach ($this->paginator->getHeader() as $column) { ?>
+		<td><?php echo $item[$column['raw']]; ?></td>
+		<?php }?>
+	</tr>
+	<?php } ?>
+	</tr>
+</table>
+	<?php echo $this->paginationControl($this->paginator, 'Sliding','partials/list_pagination_control.phtml'); ?>
+	<?php }?>
+	<?php if ($this->userRole == 'admin' || $this->userRole == 'ws-manager'){ ?>
+<a href="/workshop/edit/new/">add WS</a>
+<br>
+	<?php }?>

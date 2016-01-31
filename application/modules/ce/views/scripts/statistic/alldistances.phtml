@@ -1,0 +1,39 @@
+<?php 
+$myUrl = new Ble422_Urls($this->myRequest);
+?>
+<h2>all distances</h2>
+<table>
+	<tbody>
+		<tr>
+			<th>
+			 reader
+			</th>
+			<th>
+			 image
+			</th>
+			<th>
+			 mark
+			</th>
+			<th>
+			 distance to the progenitor
+			</th>
+		</tr>
+		<?php foreach ($this->resultArray as $dot) {?>
+		<tr>
+		  <td>
+		      <?php echo $dot[Participant::COL_NUMBER]?>
+		  </td>
+		  <td>
+		      <?php echo $dot[Image::COL_ORIGINAL_FILENAME]?>
+		  </td>
+		  <td>
+		      <?php echo $dot[Dots::COL_SEQUENCE]?>
+		  </td>
+		  <td>
+		      <?php echo $this->distanceArray[$dot[Dots::COL_ID]]?>
+		  </td>
+		</tr>
+		<?php }?>
+	</tbody>
+</table>
+<a href="/ce/statistic/alldistances/<?php echo $myUrl->getParamsUrl(); ?>as/csv/">download as CSV-file</a>

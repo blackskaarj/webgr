@@ -1,0 +1,54 @@
+</script>
+<h2>List of images</h2>
+<?php if (count($this->paginator)){ ?>
+<form action="<?php echo $this->callingAction?>" method="post">
+<table>
+	<tr>
+		<th></th>
+		<th>Thumbnail</th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+		<th>Actions</th>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<tr>
+		<td><?php if ($this->callingAction == "/ce/edit/addimages"){?> <input
+			type="checkbox" name="<?php echo Image::COL_ID?>[]"
+			value="<?php echo $item[Image::COL_ID]?>"
+			<?php if (isset($this->assignedImages[$item[Image::COL_ID]])) echo "disabled checked='checked'";?>>
+			<?php } ?></td>
+		<td><a
+			href="/images/shrinked_working_copies/<?php echo $item[Image::COL_GUID]; ?>.jpg"
+			target="_blank"><img
+			src="/images/thumbnails/<?php echo $item[Image::COL_GUID]; ?>.jpg"
+			alt="Image from fish sample"></a></td>
+			<?php foreach ($this->paginator->getHeader() as $column) { ?>
+		<td><?php echo $item[$column['raw']]; ?></td>
+		<?php }?>
+		<td><a
+			href="/image/edit/update/<?php echo Image::COL_ID?>/<?php echo $item[Image::COL_ID]?>">Edit
+		image data</a><br>
+		<?php if ($this->callingAction == "user/edit/myimages"){
+			if (Default_SimpleQuery::isValueInTableColumn($item[Image::COL_ID], new CeHasImage(), CeHasImage::COL_IMAGE_ID)) {
+				echo '(Image used in CE)'; } else {?> <a
+			href="javascript:confirmDelete('Do you really want to delete the image:\r\n<?php echo $item[Image::COL_ORIGINAL_FILENAME]?> ?','/image/edit/delete/<?php echo Image::COL_ID."/".$item[Image::COL_ID]?>')">Delete
+		image</a><br>
+		<?php }} ?></td>
+	</tr>
+	<?php } ?>
+	<?php if ($this->callingAction == "/ce/edit/addimages"){?>
+	<tr>
+		<td></td>
+		<td><input type="submit" id="submit" value="add images"
+			name="add images"></td>
+	</tr>
+	<?php } ?>
+</table>
+</form>
+	<?php echo $this->paginationControl($this->paginator, $this->scrollingStyle); ?>
+	<?php }else{ ?>
+Nothing found! There are no results for your search.
+	<?php }?>

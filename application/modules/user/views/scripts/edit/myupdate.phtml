@@ -1,0 +1,7 @@
+<h2>User form and personal data</h2>
+<h3 style="color: red;"><?php echo $this->message;?></h3>
+<?php echo $this->form; ?>
+<a href="/user/edit/myresetpassword">Change password</a><br>
+<a href="/user/edit/myimages">My images</a><br>
+<a href="/user/edit/myfishes">My fishes</a><br>
+<a href="javascript:confirmDelete('Do you really want to delete your user account?\r\nNote: Images, fishes, annotations etc. are stored anonymously','/user/edit/delete')">Delete my user account</a><br>

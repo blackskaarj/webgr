@@ -1,0 +1,30 @@
+<!-- 
+See http://developer.yahoo.com/ypatterns/pattern.php?pattern=searchpagination
+-->
+<?php //'itemCountPerPage' => $this->itemCountPerPage ?>
+<?php if ($this->pageCount != 1){ ?> 
+<div id="paginationControl">
+<!-- Previous page link --> 
+<?php if (isset($this->previous)){ ?> 
+  <a href="<?= $this->url(array('page' => $this->previous, 'itemCountPerPage' => $this->itemCountPerPage)); ?>">&lt; Previous</a> | 
+<?php }else{ ?> 
+  <span class="disabled">&lt; Previous</span> | 
+<?php } ?> 
+
+<!-- Numbered page links -->
+<?php foreach ($this->pagesInRange as $page){ ?> 
+  <?php if ($page != $this->current){ ?>
+    <a href="<?php echo $this->url(array('page' => $page, 'itemCountPerPage' => $this->itemCountPerPage )); ?>"><?php echo $page; ?></a> | 
+  <?php }else{ ?>
+    <?= $page; ?> | 
+  <?php } ?>
+<?php }; ?>
+ 
+<!-- Next page link --> 
+<?php if (isset($this->next)){ ?> 
+  <a href="<?= $this->url(array('page' => $this->next, 'itemCountPerPage' => $this->itemCountPerPage)); ?>">Next &gt;</a>
+<?php }else{ ?> 
+  <span class="disabled">Next &gt;</span>
+<?php } ?> 
+</div> 
+<?php };?>

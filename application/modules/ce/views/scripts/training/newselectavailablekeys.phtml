@@ -1,0 +1,36 @@
+<h2>Create training calibration exercise</h2>
+<?php
+echo $this->form;
+?>
+<h3>List of imagesets grouped by protocol name</h3>
+<?php if (count($this->paginator)){ ?>
+<form action="<?php echo $this->callingAction?>" method="post">
+<table>
+	<tr>
+		<th></th>
+		<th></th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+		<th>Actions</th>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<tr>
+		<td></td>
+		<td></td>
+		<?php foreach ($this->paginator->getHeader() as $column) { ?>
+		<td><?php echo $item[$column['raw']]; ?></td>
+		<?php }?>
+		<td><a
+			href="/ce/training/create/<?php echo Expertise::COL_ID;?>/<?php echo $item[CalibrationExercise::COL_EXPERTISE_ID];?>/<?php echo KeyTable::COL_ID;?>/<?php echo $item[CalibrationExercise::COL_KEY_TABLE_ID];?>">
+			Create training calibration exercise</a></td>
+	</tr>
+	<?php } ?>
+</table>
+</form>
+	<?php echo $this->paginationControl($this->paginator, $this->scrollingStyle); ?>
+	<?php }else{ ?>
+Nothing found! There are no results for your search.
+	<?php }?>

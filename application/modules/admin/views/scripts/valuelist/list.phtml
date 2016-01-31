@@ -1,0 +1,16 @@
+<?php
+echo "<h2>Value list for attribute $this->atDeName (ID: $this->atDeId)</h2>";
+echo '<table>';
+echo '<tr>';
+echo '<th>Value list ID</th>';
+echo '<th>Value list name</th>';
+echo '<th>Value list value</th>';
+echo '</tr>';
+foreach ($this->list as $item) {
+	echo '<tr>';
+	echo '<td>'.$item[ValueList::COL_ID].'</td>';
+	echo '<td>'.$item[ValueList::COL_NAME].'</td>';
+	echo '<td>'.$item[Valuelist::COL_VALUE].'</td>';
+	echo '</tr>';
+}
+echo '</table>';

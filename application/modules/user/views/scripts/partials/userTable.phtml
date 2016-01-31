@@ -1,0 +1,36 @@
+<?php if (count($this->paginator)){ ?>
+<table border="solid">
+	<tr>
+		<th></th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+		<?php if (!empty($this->userHasExpAsArray)) { ?>
+		<th>Expertise</th>
+		<?php }?>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<tr>
+		<td><?php if ($this->callingAction == "ce/editparticipants/index"){?>
+		<input type="checkbox" name="<?php echo User::COL_ID?>[]"
+			value="<?php echo $item[User::COL_ID]?>" <?php if (isset($this->participants[$item[User::COL_ID]])) echo "disabled checked='checked'";?>> <?php } ?>
+			<?php if ($this->callingAction == "workshop/edit/new" || $this->callingAction == "workshop/edit/update"){	?>
+		<input type="radio" name="<?php echo User::COL_ID?>"
+			value="<?php echo $item[User::COL_ID]?>" /> <?php } ?> <?php if ($this->userRole == "admin" || $this->userRole == "admin"){    ?>
+		<a
+			href="/admin/user/update/<?php echo User::COL_ID . '/' . $item[User::COL_ID]?>">edit</a>
+			<?php } ?></td>
+			<?php foreach ($this->paginator->getHeader() as $column) { ?>
+		<td><?php echo $item[$column['raw']]; ?></td>
+		<?php }?>
+		<td><?php echo $this->userHasExpAsArray[$item[User::COL_ID]]; ?></td>
+	</tr>
+	<?php } ?>
+</table>
+
+	<?php echo $this->paginationControl($this->paginator, $this->scrollingStyle); ?>
+	<?php }else{ ?>
+Nothing found! There are no results for your search.
+	<?php }?>

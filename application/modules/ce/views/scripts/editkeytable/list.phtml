@@ -1,0 +1,31 @@
+<h3>List of protocols</h3>
+<table border="solid">
+    <tr>
+    <th></th>
+    <th>name</th>
+    <th>filename</th>
+<!--    <th>area</th>-->
+<!--    <th>species</th>-->
+<!--    <th>maturity</th>-->
+<!--    <th>age</th>-->
+<!--	<th>subject</th>-->
+    </tr>
+    
+    <?php foreach ($this->keyArray as $key => $singleArray) {
+            echo '<tr>';
+            echo '<td><a href="/ce/editkeytable/update/'.KeyTable::COL_ID . '/' . $singleArray[KeyTable::COL_ID] . '">edit</a></td>' ;
+            echo '<td>' . $singleArray[KeyTable::COL_NAME] . '</td>' ;
+            echo '<td>' . $singleArray[KeyTable::COL_FILENAME] . '</td>' ;
+//            echo '<td>' . $singleArray[KeyTable::COL_AREA] . '</td>' ;
+//            echo '<td>' . $singleArray[KeyTable::COL_SPECIES] . '</td>' ;
+//            if(intval($singleArray[KeyTable::COL_MATURITY]) == 1){
+//            echo '<td> X </td>' ;
+//            }
+//            if(intval($singleArray[KeyTable::COL_AGE]) == 1){
+//            echo '<td> X </td>' ;
+//            }
+//            echo '<td>' . $singleArray[KeyTable::COL_SUBJECT] . '</td>' ;
+            echo '</tr>';
+    }?>
+</table>
+<a href="/ce/editkeytable/index/">add protocol</a>

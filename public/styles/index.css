@@ -1,0 +1,53 @@
+@CHARSET "UTF-8";
+body {
+	margin: 0px;
+	font-family: sans-serif;
+	font-size: 14px;
+}
+table {
+    font-size: 11px;
+    border-color: #7FB2FF;
+    border-collapse:collapse;
+}
+td {
+	padding: 0.25em 0.5em;
+    vertical-align: top;
+}
+th {
+	background-color: #7FB2FF;
+}
+tr {
+    border: solid thin blue;	
+}
+#header {
+	background-position: right;
+	background-repeat: no-repeat;
+	background-image: url("/images/website/headerHg.jpg");
+	border-bottom: thin #7FB2FF solid;
+    height: 80px;
+}
+#menue {
+	padding: 5px;
+	background-color: #B7E3FE;
+    width: 200px;
+    float: left;
+    height: 700px;
+}
+#content {
+	padding-top: 10px;
+	padding-left: 220px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+    width: auto;
+    height: 100%;
+}
+#title {
+    float: right;
+}
+#logo {
+	float: left;
+}
+a {
+    line-height: 18px;
+    font-size: 14px;
+}

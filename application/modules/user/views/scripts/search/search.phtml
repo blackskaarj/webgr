@@ -1,0 +1,39 @@
+<h2>List of users</h2>
+<form id="userResultTable" <?php switch ($this->callingAction) {
+case "ce/editparticipants/index": ?>
+action="/ce/editparticipants/addparticipants"
+<?php break;
+case "workshop/edit/new": ?>
+action="/workshop/edit/new/<?php echo Workshop::COL_ID.'/'.$this->callingActionId;?>"
+<?php break;
+case "workshop/edit/update": ?>
+action="/workshop/edit/update/<?php echo Workshop::COL_ID.'/'.$this->callingActionId;?>"
+<?php break;
+default: ?>
+action="LISTE OHNE KONTEXT AUFGERUFEN"
+<?php break; } ?>
+method="post">
+
+<?php switch ($this->callingAction) {
+case "ce/editparticipants/index": ?>
+<input type="submit" id="Add_to_participants" name="Add_to_participants" value="Add to participants"/>
+<input type="reset" name="Reset" value="Reset"/>
+<?php break;
+case "workshop/edit/update":
+case "workshop/edit/new": ?>
+<input type="submit" id="Set as workshop manager" name="Set_as_workshop_manager" value="Set as workshop manager"/>
+<input type="reset" name="Reset" value="Reset"/>
+<?php break;
+default: ?>
+<?php break; } ?>
+
+<?php
+echo $this->partial('partials/userTable.phtml',
+                   array(
+                   'paginator' => $this->paginator,
+                   'callingAction' => $this->callingAction,
+                   'userRole'=>$this->userRole,
+                   'userHasExpAsArray' => $this->userHasExpAsArray,
+                   'participants' => $this->participants));
+?>
+</form>

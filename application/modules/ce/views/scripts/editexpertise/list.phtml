@@ -1,0 +1,19 @@
+<h3>List of expertises</h3>
+<table border="solid">
+    <tr>
+    <th></th>
+    <th>Area (free text)</th>
+    <th>Species</th>
+    <th>Type of structure</th>
+    </tr>
+    
+    <?php foreach ($this->expArray as $key => $singleArray) {
+            echo '<tr>';
+            echo '<td><a href="/ce/editexpertise/update/'.Expertise::COL_ID . '/' . $singleArray[Expertise::COL_ID] . '">edit</a></td>' ;
+            echo '<td>' . $singleArray[Expertise::COL_AREA] . '</td>' ;
+            echo '<td>' . $singleArray['valSpec'] . '</td>' ;
+            echo '<td>' . $singleArray['valSubj'] . '</td>' ;
+            echo '</tr>';
+    }?>
+</table>
+<a href="/ce/editexpertise/index/">add expertise</a>

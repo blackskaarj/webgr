@@ -1,0 +1,34 @@
+<?php if ($this->ceArray != null) {?>
+<h3>CE definition</h3>
+<ul>
+    <li>CE Name: <?php echo $this->ceArray[CalibrationExercise::COL_NAME]?></li>
+    <li>CE Description: <?php echo $this->ceArray[CalibrationExercise::COL_DESCRIPTION]?></li>
+    <li>Species: <?php echo $this->ceArray[Expertise::COL_SPECIES]?></li>
+    <li>Area: <?php echo $this->ceArray[Expertise::COL_AREA]?></li>
+    <li>Subject: <?php echo $this->ceArray[Expertise::COL_SUBJECT]?></li>
+    <li>Protocol: <?php echo $this->ceArray[KeyTable::COL_NAME]?></li>
+</ul>
+<br />
+
+<!--<h3>Imageset Definition</h3>
+<?php }?>
+<table border="solid">
+	<tr>
+	<?php foreach ($this->csvArray[0] as $head) {
+		echo '<th>' . $head . '</th>';
+	}?>
+	</tr>
+	
+	<?php foreach ($this->csvArray as $key => $singleArray) {
+        if ($key != 0) {
+            echo '<tr>';
+	        foreach ($this->csvArray[0] as $alias => $head) {
+	            echo '<td>' . $singleArray[$alias] . '</td>' ;
+	        }
+	        echo '</tr>';
+        }
+	}?>
+</table>
+<br>
+
+<a href="/ce/statistic/<?php echo $this->Action . '/' . CalibrationExercise::COL_ID . "/" . $this->ceId?>/as/csv/">download table as CSV-file</a>-->

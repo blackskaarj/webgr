@@ -1,0 +1,8 @@
+isEmpty;Der Wert darf nicht leer sein.
+notAlnum;Es sind nur Alphanumerische Zeichen zulässig.('%value%')
+notInt;Der Wert darf nur Ganzzahlig sein.
+stringLengthTooLong;'%value%' hat mehr als '%max%' Zeichen.
+stringLengthTooShort;'%value%' muss mindestens '%min%', Zeichen haben.
+Text1;Hier kommt der Bereich "$this->layout()->content"
+ErrorAction404;HTTP/1.1 404 Fehler: Wo soll die Seite denn sein, die Sie suchen?
+ErrorAction500;HTTP/1.1 500 Fehler: Fehler in der Anwendung

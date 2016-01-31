@@ -1,0 +1,35 @@
+<h2>Attribute descriptor list</h2>
+<?php if (count($this->paginator)){?>
+<table border="solid">
+	<tr>
+		<th></th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+		<th>value list</th>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<tr>
+		<td><a
+			href="/admin/readattribute/detail/<?php echo AttributeDescriptor::COL_ID."/".$item[AttributeDescriptor::COL_ID]?>/">show detail</a><br>
+		</td>
+		<?php foreach ($this->paginator->getHeader() as $column) { ?>
+		<td><?php echo $item[$column['raw']]; ?></td>
+		<?php }?>
+		<?php
+		if (Default_ReferenceQuery::hasValueListData($item[AttributeDescriptor::COL_ID])) {
+			$commaSeperatedValueList = ValueList::getCommaSeperatedValueList($item[AttributeDescriptor::COL_ID]);
+		?>
+		<td><?php echo $commaSeperatedValueList; ?></td>
+	    <?php }
+		elseif (Default_ReferenceQuery::hasValueList($item[AttributeDescriptor::COL_ID])) { ?>
+		<td>No value list available</td>
+		<?php } ?>
+	</tr>
+	<?php } ?>
+</table>
+	<?php echo $this->paginationControl($this->paginator, 'Sliding','partials/list_pagination_control.phtml'); ?>
+	<?php }?>
+<br>

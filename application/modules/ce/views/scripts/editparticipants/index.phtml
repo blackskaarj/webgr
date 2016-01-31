@@ -1,0 +1,69 @@
+<h2>Calibration exercise: <?php echo $this->ceName;?> (ID: <?php echo $this->callingActionId;?>)</h2>
+<form id="editParticipants" action="/ce/editparticipants/index" method="post">
+<b>Assign values</b><br>
+<input type="checkbox" name="participantAttributeChecked[]" value="<?php echo Participant::COL_EXPERTISE_LEVEL?>">Expertise level
+<select name="<?php echo Participant::COL_EXPERTISE_LEVEL?>">
+      <option value=NULL>Please select</option>
+      <option value="Trainee">Trainee</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Expert">Expert</option>
+<!--      <option value="300">300</option>-->
+    </select><br>
+
+<input type="checkbox" name="participantAttributeChecked[]" value="<?php echo Participant::COL_STOCK_ASSESSMENT?>">Stock assessment
+<select name="<?php echo Participant::COL_STOCK_ASSESSMENT?>">
+      <option selected="selected" value="">No</option>
+      <option value="on">Yes</option>
+</select><br>
+<input type="checkbox" name="participantAttributeChecked[]" value="<?php echo Participant::COL_ROLE?>">Role
+<select name="<?php echo Participant::COL_ROLE?>">
+      <option value=NULL>Please select</option>
+      <option value="Reader">Reader</option>
+      <option value="Coordinator">Coordinator</option>
+    </select><br>
+<input type="submit" name="Apply_to_selected" value="Apply to selected">
+<h3>List of participants</h3>
+<?php if (count($this->paginator)){ ?>
+<table>
+<tr>
+    <th></th>
+    <?php foreach ($this->paginator->getHeader() as $column) {?>
+    <th>
+        <a href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+    </th>
+    <?php }?>
+</tr>
+<?php foreach ($this->paginator as $item){ ?>
+  <tr>
+    <td>
+    <input type="checkbox"
+    name="<?php echo Participant::COL_ID?>[]"
+    value="<?php echo $item[Participant::COL_ID]?>"
+    <?php if ($this->checkAll == TRUE) {echo "checked";}?>
+    >
+    </td>
+    <?php foreach ($this->paginator->getHeader() as $column) { ?>
+    <td>
+    <?php echo $item[$column['raw']]; ?>
+    </td>
+    <?php }?>
+   </tr>
+<?php } ?>
+</table>
+<input type="submit" name="Check_all" value="Check all">
+<input type="submit" name="Uncheck_all" value="Uncheck all">
+<input type="submit" name="Remove_from_participants" value="Remove from participants">
+<?php echo $this->paginationControl($this->paginator, $this->scrollingStyle); ?>
+<?php }else{ ?>
+Nothing found.
+<?php }?>
+<br>
+<input type="reset" value="Reset">
+</form>
+<a href="/user/search/index">Search user(s) to add</a><br>
+ 
+<?php 
+//called by coordinator (can't edit ce, but can edit participants)
+if (! $this->callingAction == NULL || $this->callingAction == '') { ?>
+	<a href="/ce/edit/index/CAEX_ID/<?php echo $this->callingActionId?>">Back</a>
+<?php }?>

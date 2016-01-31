@@ -1,0 +1,26 @@
+<h1>Zend_Paginator Template</h1>
+
+
+
+<?php if (count($this->paginator)){ ?>
+<table>
+<tr>
+    <?php foreach ($this->paginator->getHeader() as $column) {?>
+    <th>
+        <a href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+    </th>
+    <?php }?>
+</tr>
+<?php foreach ($this->paginator as $item){ ?>
+  <tr>
+    <?php foreach ($this->paginator->getHeader() as $column) { ?>
+    <td>
+    <?php echo $item[$column['raw']]; ?>
+    </td>
+    <?php }?>
+   </tr>
+<?php } ?>
+</tr>
+</table>
+<?php echo $this->paginationControl($this->paginator, $this->scrollingStyle); ?>
+<?php } ?>

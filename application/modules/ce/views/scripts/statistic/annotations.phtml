@@ -1,0 +1,54 @@
+<?php 
+$myUrl = new Ble422_Urls($this->myRequest);
+?>
+<h3>annotations</h3>
+<div>
+<a href="/ce/statistic/annotations/<?php echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/level/all/">show all</a>
+<br /><a href="/ce/statistic/annotations/<?php echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/level/trainee/">show only trainees</a>
+<br /><a href="/ce/statistic/annotations/<?php echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/level/intermediate/">show only intermediates</a>
+<br /><a href="/ce/statistic/annotations/<?php echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/level/expert/">show only experts</a>
+<br /><a href="/ce/statistic/annotations/<?php echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/stock/true/">show only stock assesment</a>
+</div>
+<br />
+<table border="solid">
+<?php
+if ($this->noPart == TRUE) {
+	echo "No data available.";
+} else {
+?>
+
+<?php
+foreach ($this->csvArray as $ceHImId => $results) {
+    if($ceHImId == 'IMAGE') {
+    	//header
+       ?><tr><?php echo '<th>' . $ceHImId . '</th>';
+        foreach ($results as $result){
+            echo '<th>' . $result[Participant::COL_NUMBER] . '</th>';
+        }
+        ?></tr><?php    
+    } elseif (is_numeric($ceHImId)) {
+    	//data images
+    	$imageName = $this->ceHimFilenameArray[$ceHImId];
+        ?><tr><?php echo '<td>' . $imageName . '<br><a href="' . '/ce/statistic/distances/' . $myUrl->getParamsUrl() . CeHasImage::COL_ID . '/' . $ceHImId . '">' . 'distances'. '</td>';
+         
+        foreach ($results as $result){
+            echo '<td>' . $result . '</td>';
+        }
+        ?></tr><?php
+    } else {
+    	//data user/results
+        ?><tr><?php echo '<td>' . $ceHImId . '</td>';
+        foreach ($results as $result){
+            echo '<td>' . $result . '</td>';
+    }
+    ?></tr><?php
+    }   
+}//ENDE:  foreach ($array as $schluessel => $wert) ;
+?>
+</table>
+<br>
+<?php
+
+?>
+<a href="/ce/statistic/annotations/<?php echo $myUrl->getParamsUrl(); ?>as/csv/">download as CSV-file</a>
+<?php } ?>

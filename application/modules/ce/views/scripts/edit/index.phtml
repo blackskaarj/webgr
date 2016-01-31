@@ -1,0 +1,127 @@
+<h2>Calibration exercise: <?php echo $this->ceName;?> (ID: <?php echo $this->callingActionId;?>)</h2>
+<table border="1">
+	<tr>
+		<td>
+		<?php if(isset($this->message)) {
+			echo '<font color="red" size="3">' . $this->message . '</font><br>';
+		}
+		?>
+		<p><?php if(intval($this->isStopped) == 1){?> <b style="color: red;">CE
+		is stopped</b> <a
+			href="/ce/edit/startce/<?php echo CalibrationExercise::COL_ID .'/'. $this->callingActionId?>/">start
+		calibration exercise</a> <?php }else{?> <b style="color: green;">CE is
+		running</b> <a
+			href="/ce/edit/stopce/<?php echo CalibrationExercise::COL_ID .'/'. $this->callingActionId?>/">stop
+		calibration exercise</a> <?php }?>
+		</p>
+		<?php
+		echo $this->form?>
+		<p><a
+			href="/ce/edit/replicate/<?php echo CalibrationExercise::COL_ID .'/'. $this->callingActionId?>/">replicate
+		current calibration exercise</a><br>
+		</p>
+		<?php if (isset($this->resultShownAttr)){?>
+		<table>
+			<tr>
+				<th>Shown attributes</th>
+			</tr>
+			<?php foreach ($this->resultShownAttr as $row => $values) {?>
+			<tr>
+				<td><?php echo $values[AttributeDescriptor::COL_NAME]?></td>
+				<?php if(intval($this->isStopped) == 1) { ?>
+				<td><a
+					href="/ce/edit/removeattribute/ATDE_ID/<?php echo $values[AttributeDescriptor::COL_ID]?>">Remove
+				attribute</a></td>
+				<?php } ?>
+			</tr>
+			<?php }?>
+		</table>
+		<?php } ?>
+		
+		<?php if(intval($this->isStopped) == 1) { ?>
+		<?php if (isset($this->formAttrSelCon)) {?>
+		<form action="<?php echo $this->formAttrSelCon->getAction();?>"
+			method="post">
+		<table>
+			<tr>
+				<td><?php echo $this->formAttrSelCon->attr;?></td>
+				<td><?php echo $this->formAttrSelCon->submit;?></td>
+			</tr>
+		</table>
+		</form>
+		<?php } ?>
+		<?php } ?>
+		
+		<b>Participants</b><br>
+		Number of participants:<?php echo $this->numOfParti;?>
+		<a
+			href='/ce/editparticipants/index'>Edit participants...</a> <br>
+		</td>
+
+		<td><b>Imageset attributes</b><br>
+		<?php echo $this->imageSetForm;	?>
+
+        <?php if(intval($this->isStopped) == 1) { ?>
+		<form action="<?php echo $this->formAttrSelConFish->getAction();?>"
+			method="post">fish
+		<table>
+			<tr>
+				<td><?php echo $this->formAttrSelConFish->attr;?></td>
+				<td><?php echo $this->formAttrSelConFish->submit;?></td>
+			</tr>
+		</table>
+		</form>
+		<form action="<?php echo $this->formAttrSelConImage->getAction();?>"
+			method="post">image
+		<table>
+			<tr>
+				<td><?php echo $this->formAttrSelConImage->attr;?></td>
+				<td><?php echo $this->formAttrSelConImage->submit;?></td>
+			</tr>
+		</table>
+		</form>
+		<?php } ?>
+		
+		<br>
+		<table border="solid">
+			<tr>
+				<th>defined imageset</th>
+			</tr>
+			<?php foreach($this->imageArray as $image){?>
+			<tr>
+				<td><?php echo $image[Image::COL_ORIGINAL_FILENAME]?> <?php if (! Default_SimpleQuery::isValueInTableColumn($image[CeHasImage::COL_ID], new Annotations(), Annotations::COL_CE_HAS_IMAGE_ID)) { ?>
+				
+				<?php if(intval($this->isStopped) == 1) { ?>
+				<td><a
+					href="/ce/edit/removeimage/<?php echo CeHasImage::COL_ID.'/'.$image[CeHasImage::COL_ID] ?>">remove</a></td>
+					<?php } ?>
+					<?php } ?>
+			</tr>
+			<?php }?>
+
+<?php if(intval($this->isStopped) == 1) { ?>
+			<?php if(!$this->noImageset) {?>
+			<?php if($this->isRandom) { ?>
+			<tr>
+				<td>
+				<form
+					action="/ce/edit/addimagesatrandom/<?php echo CalibrationExercise::COL_ID.'/'.$this->ceId ?>"
+					method="post"><label for="noImages">Number of images:</label> <input
+					name="noImages" id="noImages" type="text" size="3"></input><br>
+				<input type="submit" value="add at random"></form>
+				</td>
+			</tr>
+			<?php }?>
+
+			<tr>
+				<td><a
+					href="/ce/edit/addimages/<?php echo CalibrationExercise::COL_ID.'/'.$this->ceId ?>">add
+				images</a></td>
+				<td></td>
+			</tr>
+			<?php }?>
+			<?php } ?>
+		</table>
+		</td>
+	</tr>
+</table>

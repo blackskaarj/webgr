@@ -1,0 +1,52 @@
+<h3>Distances</h3>
+<!--<div>-->
+<!--<a href="/ce/statistic/distances/<?php //echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/<?php //echo CeHasImage::COL_ID . "/" . $this->cehim?>/level/all/">show all</a>-->
+<!--<br /><a href="/ce/statistic/distances/<?php //echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/<?php //echo CeHasImage::COL_ID . "/" . $this->cehim?>/level/trainee/">show only trainees</a>-->
+<!--<br /><a href="/ce/statistic/distances/<?php //echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/<?php //echo CeHasImage::COL_ID . "/" . $this->cehim?>/level/intermediate/">show only intermediates</a>-->
+<!--<br /><a href="/ce/statistic/distances/<?php //echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/<?php //echo CeHasImage::COL_ID . "/" . $this->cehim?>/level/expert/">show only experts</a>-->
+<!--<br /><a href="/ce/statistic/distances/<?php //echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/<?php //echo CeHasImage::COL_ID . "/" . $this->cehim?>/stock/true/">show only stock assesment</a>-->
+<!--</div>-->
+<br />
+<table border="solid">
+<?php
+if ($this->noPart == TRUE) {
+    echo "No data available.";
+} else {
+?>
+<?php foreach ($this->csvArray as $row => $results) {
+    if($row == 'header') {
+        //header
+       ?><tr><?php echo '<th></th>';
+        foreach ($results as $result){
+            echo '<th>' . $result[Participant::COL_NUMBER] . '</th>';
+        }
+        ?></tr><?php    
+    } elseif (is_numeric($row)) {
+        //data distances
+        //$imageName = $this->ceHimFilenameArray[$distance];
+        ?><tr>
+        <?php //echo '<td>' . $imageName . '<br><a href="' . '/ce/statistic/distances/' . $myUrl->getParamsUrl() . Image::COL_ID . '/' . $distance . '">' . 'distances'. '</td>';
+        ?>
+        
+        <?php echo '<td>' . 'Distance '. $row . ' [mm]' . '</td>';
+         
+        foreach ($results as $result){
+            echo '<td>' . $result . '</td>';
+        }
+        ?></tr><?php
+    } else {
+        //user data / sums
+        ?><tr><?php echo '<td>' . $row . '</td>';
+        foreach ($results as $result){
+            echo '<td>' . $result . '</td>';
+    }
+    ?></tr><?php
+    }}
+?>
+</table>
+<br>
+<?php
+
+?>
+<a href="/ce/statistic/distances/<?php echo CalibrationExercise::COL_ID . "/" . $this->ceId?>/<?php echo CeHasImage::COL_ID . "/" . $this->cehim?>/as/csv/">download as CSV-file</a>
+<?php } ?>

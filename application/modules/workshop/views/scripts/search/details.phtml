@@ -1,0 +1,95 @@
+<h3>Workshop info</h3>
+<ul>
+	<li>workshop name</li>
+	<?php echo $this->workshopArray[Workshop::COL_NAME] ?>
+
+	<li>hosting organisation</li>
+	<?php echo $this->workshopArray['instname'] ?>
+
+	<li>manager</li>
+	<?php echo $this->workshopArray['manager'] ?>
+
+	<li>start date</li>
+	<?php echo $this->workshopArray[Workshop::COL_START_DATE] ?>
+
+	<li>end date</li>
+	<?php echo $this->workshopArray[Workshop::COL_END_DATE] ?>
+
+	<li>location</li>
+	<?php echo $this->workshopArray['location'] ?>
+</ul>
+
+<!-- ce list -->
+	<?php if($this->ceArray != array()){?>
+<table>
+	<tr>
+		<th>Calibration exercises</th>
+		<th></th>
+	</tr>
+	<?php foreach ($this->ceArray as $ce){?>
+	<tr>
+	<?php if($this->userRole == 'admin' ||
+	AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId(Default_SimpleQuery::getWorkshopId($ce[CalibrationExercise::COL_ID]))){?>
+		<td><a
+			href="/ce/edit/index/<?php echo CalibrationExercise::COL_ID.'/'.$ce[CalibrationExercise::COL_ID] ?>">edit</a></td>
+			<?php }?>
+		<td><?php echo $ce[CalibrationExercise::COL_NAME] ?></td>
+		<td><a
+			href="/ce/statistic/index/<?php echo CalibrationExercise::COL_ID . '/' . $ce[CalibrationExercise::COL_ID]?>">statistic</a></td>
+	</tr>
+	<?php }?>
+</table>
+	<?php }?>
+
+<!-- link list -->
+	<?php if($this->linkArray != array()){?>
+<table>
+	<tr>
+		<th>links</th>
+	</tr>
+	<?php foreach ($this->linkArray as $info){?>
+	<tr>
+		<td><a href="<?php echo $info[WorkshopInfo::COL_LINK] ?>"><?php echo $info[WorkshopInfo::COL_TEXT] ?></a></td>
+		<td><?php if($this->userRole == 'admin' ||
+		AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId($this->workshopArray[Workshop::COL_ID])) { ?>
+		<a
+			href="/workshop/info/deletelink/<?php echo WorkshopInfo::COL_ID . '/' . $info[WorkshopInfo::COL_ID] . '/' . WorkshopInfo::COL_WORKSHOP_ID . '/' . $this->workshopArray[Workshop::COL_ID] ?>">delete</a>
+			<?php } ?></td>
+	</tr>
+	<?php }?>
+</table>
+	<?php }?>
+	<?php if($this->userRole == 'admin' ||
+	AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId($this->workshopArray[Workshop::COL_ID])) { ?>
+<a
+	href="/workshop/info/addlink/<?php echo WorkshopInfo::COL_WORKSHOP_ID . '/' . $this->workshopArray[Workshop::COL_ID]?>">add
+link</a>
+	<?php } ?>
+
+<!-- file list -->
+	<?php if($this->fileArray != array()){?>
+<table>
+	<tr>
+		<th>description</th>
+		<th>file</th>
+		<th></th>
+	</tr>
+	<?php foreach ($this->fileArray as $file){?>
+	<tr>
+		<td><?php echo $file[WorkshopInfo::COL_TEXT] ?></td>
+		<td><a href="/infoFiles/<?php echo $file[WorkshopInfo::COL_FILE] ?>"><?php echo $file[WorkshopInfo::COL_FILE] ?></a></td>
+		<td><?php if($this->userRole == 'admin' ||
+		AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId($this->workshopArray[Workshop::COL_ID])) { ?>
+		<a
+			href="/workshop/info/deletefile/<?php echo WorkshopInfo::COL_ID . '/' . $file[WorkshopInfo::COL_ID] . '/' . WorkshopInfo::COL_WORKSHOP_ID . '/' . $this->workshopArray[Workshop::COL_ID] ?>">delete</a></td>
+			<?php } ?>
+	</tr>
+	<?php }?>
+</table>
+	<?php }?>
+	<?php if($this->userRole == 'admin' ||
+	AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId($this->workshopArray[Workshop::COL_ID])) { ?>
+<a
+	href="/workshop/info/addfile/<?php echo WorkshopInfo::COL_WORKSHOP_ID . '/' . $this->workshopArray[Workshop::COL_ID]?>">add
+file</a>
+	<?php } ?>

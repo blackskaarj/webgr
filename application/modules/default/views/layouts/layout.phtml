@@ -1,0 +1,85 @@
+<?php
+echo $this->doctype();
+?>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type='text/javascript' src='/scripts/webgr.js'></script>
+    <?php echo $this->headTitle() ?>
+    <?php echo $this->headMeta() ?>
+    <?php echo $this->headLink() ?>
+    <?php echo $this->headStyle() ?>
+    <?php echo $this->headScript() ?>
+</head>
+<body class="tundra">
+<div id="root">
+<div id="header">
+<img id="logo" alt="Logo WebGR" src="/images/website/logoWebGR.png">
+<div id="title">
+<h2><b><?php echo Zend_Registry::get('APP_NAME')?></b></h2>
+</div>
+</div>
+<div id="menue">
+<h3>Main menu (v1.2)</h3>
+<ul>
+    <li><a href="/index/welcome">Home</a></li>
+    <li><a href="/default/registeruser">Register new user</a></li>
+    <li><a href="/user/edit/myupdate/">My user data</a></li>
+    <li><a href="/default/forgotpassword/">Forgot password</a></li>
+    <li><a href="/default/help/index/">Help</a></li>
+    <li><a href="http://webgr.wiki.azti.es/doku.php">Wiki</a></li>
+    <li><a href="https://developer.berlios.de/project/showfiles.php?group_id=8643">Get the code</a></li>
+</ul>
+<ul>    
+    <li><a href="/ce/search/myce/">My calibration exercises</a></li>
+    <li><a href="/workshop/search/myws/">My workshops</a></li>
+    <li><a href="/ce/training/newselectexp/">Start new training calibration exercise</a></li>
+</ul>
+<ul>    
+    <li><a href="/default/index/search/">Search</a></li>
+    <li><a href="/annotation/browse/byimage/">Browse annotation by image and fish</a></li>
+</ul>
+<ul>    
+    <li><a href="/admin/readattribute/list">Show attributes</a></li>
+</ul>
+
+<?php $auth = Zend_Auth::getInstance();
+if ($auth->hasIdentity()) { 
+	$storage = Zend_Auth::getInstance()->getStorage()->read()?>
+	<?php if (  $storage->USER_ROLE == 'admin' || $storage->USER_ROLE == 'ws-manager' || $storage->USER_ROLE == 'datamanager'){?>
+	<ul>
+	   <li><a href="/image/upload">Image upload</a></li>
+	   <li><a href="/image/batch/form">Batch image upload</a></li>
+	   <!-- li><a href="/image/batch/form">Batch image upload</a></li-->
+	   <li><a href="/ce/editkeytable/list">Edit protocols</a></li>
+	   <li><a href="/ce/editexpertise/list">Edit expertises</a></li>
+       <?php if (  $storage->USER_ROLE == 'admin' || $storage->USER_ROLE == 'ws-manager'){?>
+       <li><a href="/workshop/edit/new/">Start new workshop</a></li>
+      <?php }?>
+	   <?php if (  $storage->USER_ROLE == 'admin'){?>
+	   <li><a href="/admin/attribute/list">Edit attributes</a></li>
+	   <?php }?>
+       <?php if (  $storage->USER_ROLE == 'admin' || $storage->USER_ROLE == 'ws-manager' || $storage->USER_ROLE == 'datamanager'){?>	   
+	   <li><a href="/admin/attribute/createattributecsv/">Download attribute CSV</a></li>
+	   <?php }?>
+	   
+	</ul>
+	<?php }?>
+	User name: <?php echo AuthQuery::getUserName().'<br>';?>
+	User role: <?php echo AuthQuery::getUserRole().'<br>';?>
+    <a href="/login/logout">Logout</a>
+    <?php }
+    echo '<br><br><b style="color: red;">' . str_ireplace('![:alnum:]','',Zend_Registry::get('MESSAGE')) . '</b><br>' ?>
+
+<a href="/default/index/rights"><img src="/images/website/somerights.gif" alt="Rights"></a><br />
+<a href="/default/index/imprint">Imprint</a>
+<br>
+<br>Funded by:<br>
+<a href="http://ec.europa.eu/fisheries/index_en.htm">EC/DGMARE</a>
+</div>
+<div id="content">
+    <?php echo $this->layout()->content; ?>
+</div>
+</div>
+</body>
+</html>

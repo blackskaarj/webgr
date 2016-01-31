@@ -1,0 +1,40 @@
+<h2>Attribute descriptor list</h2>
+<?php if (count($this->paginator)){?>
+<table border="solid">
+	<tr>
+		<th></th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $this->paginator->getUrl()->getUrlWithoutParams() ?>orderBy/<?php echo $column['raw'];?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+		<th>More actions</th>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<tr>
+		<td><a
+			href="/admin/attribute/update/<?php echo AttributeDescriptor::COL_ID."/".$item[AttributeDescriptor::COL_ID]?>/">edit</a><br>
+		</td>
+		<?php foreach ($this->paginator->getHeader() as $column) { ?>
+		<td><?php echo $item[$column['raw']]; ?></td>
+		<?php }?>
+		<?php
+		if (Default_ReferenceQuery::hasValueListData($item[AttributeDescriptor::COL_ID])) {
+			?>
+		<td><a
+			href="/admin/valuelist/edit/<?php echo AttributeDescriptor::COL_ID."/".$item[AttributeDescriptor::COL_ID]?>/">Edit
+		value list</a></td>
+		<?php }
+		elseif (Default_ReferenceQuery::hasValueList($item[AttributeDescriptor::COL_ID])) { ?>
+		<td><a
+			href="/admin/valuelist/edit/<?php echo AttributeDescriptor::COL_ID."/".$item[AttributeDescriptor::COL_ID]?>/">Add
+		value list</a></td>
+		<?php } ?>
+	</tr>
+	<?php } ?>
+	</tr>
+</table>
+	<?php echo $this->paginationControl($this->paginator, 'Sliding','partials/list_pagination_control.phtml'); ?>
+	<?php }?>
+<a href="/admin/attribute/insert/">add attribute descriptor</a>
+<br>

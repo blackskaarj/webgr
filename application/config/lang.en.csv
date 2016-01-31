@@ -1,0 +1,32 @@
+Adressverwaltung;Adress administration
+Aktiv:;active:
+Ausloggen;Logout
+Bearbeiten;Edit
+Beliebig oft;unlimited
+Benutzername:;Username:
+Bezeichnung de:;Description de:
+Bezeichnung en:;Description en:
+Bezeichnung fr:;Description fr:
+Datentyp:;Datatyp:
+Eigenschaften;Properties
+Eigenschaftenkategorien;Propertiycategories
+Formulartyp:;Formtype:
+gezeigte Überschrift:;Form Headline:
+Hinzufügen;Add
+Höchstens 1;only 1
+Kategorie:;Categorie:
+Länge des Wertes:;Datalength:
+Löschen;Delete
+Maximale Datenlänge:;max Datalenght:
+Passwort:;password:
+Pflicht:;Required:
+Reihenfolge:;Order:
+Speichern;Save
+Stammdatenverwaltung;Basic data administration
+Vererbbar:;inheritable:
+Wertelisten;Valuelists
+Werteliste:;Valuelist:
+Zuweisbar:;assignable:
+Text1; This is a placeholder for "$this->layout()->content"
+ErrorAction404;HTTP/1.1 404: Site not found
+ErrorAction500;HTTP/1.1 500: Application error

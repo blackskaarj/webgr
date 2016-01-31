@@ -1,0 +1,12 @@
+<?php
+//header('Content-type: application/octet-stream');
+//header('Content-Disposition: attachment; filename="import.csv"');
+header("Content-Description: File Transfer"); 
+//// force download dialog
+header("Content-Type: application/force-download", true);
+header("Content-Type: application/octet-stream; charset=utf-8", true);
+////header("Content-Type: application/download");
+//
+header("Content-Disposition: attachment; filename=\"import.csv\";", true);
+
+echo utf8_encode($this->csvString);

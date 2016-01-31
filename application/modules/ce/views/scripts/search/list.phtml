@@ -1,0 +1,155 @@
+<?php
+//echo $this->partial('partials/ceTable.phtml',
+//                   array(
+//                   'paginator' => $this->paginator));
+?>
+
+<h2>Calibration exercise list</h2>
+<?php if (count($this->paginator)){
+	$urlWithoutParams = $this->paginator->getUrl()->getUrlWithoutParams();
+	$urltableParams = $this->paginator->getUrl()->getTableParams();
+	?>
+<table border="solid">
+	<tr>
+		<th></th>
+		<?php foreach ($this->paginator->getHeader() as $column) {?>
+		<th><a
+			href="<?php echo $urlWithoutParams ?>orderBy/<?php echo $column['raw'].'/'.Expertise::COL_ID.'/'.$this->expeId;?>"><?php echo $column['name'] ?></a>
+		</th>
+		<?php }?>
+	</tr>
+	<?php foreach ($this->paginator as $item){ ?>
+	<?php if($this->detailId != $item[CalibrationExercise::COL_ID]){?>
+	<tr>
+	<?php } else {?>
+	<tr style="background-color: yellow;">
+	<?php }?>
+		<td>
+		      <!-- show browse annotations -->
+        <a href="/annotation/browse/byce/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>/">browse annotations</a><br>
+		<!--          show annotate --> <?php
+		if (! Default_ReferenceQuery::isParticipantInCe($item[View_CeList::COL_CAEX_ID])) {
+			echo '(Annotation not allowed. You are not a participant.)';
+		}
+		elseif ( $this->showStart && ! Default_SimpleQuery::isCeStopped($item[View_CeList::COL_CAEX_ID]) ) { ?>
+		<a
+			href="/annotation/make/index/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>/">annotate</a><br>
+	<?php } else {
+		echo '(Annotation not allowed.)';
+	} 
+	echo '<br />';
+			?>
+			
+		<!--	  show statistics--> <?php if ($item[CalibrationExercise::COL_TRAINING] != 1){?>
+		<a
+			href="/ce/statistic/index/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>/">statistics</a><br>
+			<?php } else {?> <a
+			href="/ce/statistic/training/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>/">statistics</a><br>
+			<?php }?>
+		<!--      show details--> <a
+			href="<?php echo $urlWithoutParams.$urltableParams.'detailId/'.$item[View_CeList::COL_CAEX_ID].'/'.Expertise::COL_ID.'/'.$this->expeId?>/">details</a><br>
+		<!--      show edit-->
+		<?php if (  ($this->userRole == 'admin' 
+			|| AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId(Default_SimpleQuery::getWorkshopId($item[View_CeList::COL_CAEX_ID]))
+			|| Default_ReferenceQuery::isCoordinatorInCe($item[View_CeList::COL_CAEX_ID]))
+			&& $item[CalibrationExercise::COL_TRAINING] == 0) { ?>
+		<!-- show edit-->
+		<a href="/ce/edit/index/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>/">edit</a><br>
+		<?php } ?>
+        <?php if ($this->userRole == 'admin'
+                    || AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId(Default_SimpleQuery::getWorkshopId($item[View_CeList::COL_CAEX_ID]))) { ?>
+        <!-- show delete-->
+		<?php if (!Default_SimpleQuery::isCeStopped($item[View_CeList::COL_CAEX_ID])
+			|| Default_ReferenceQuery::ceHasAnnotation($item[View_CeList::COL_CAEX_ID])) { ?>
+		(delete not possible)<br>
+		<?php } else { ?> 
+		<a href="javascript:confirmDelete('Do you really want to delete the calibration exercise:\r\n<?php echo $item[View_CeList::COL_CAEX_NAME]?> ?','/ce/edit/delete/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>')">delete</a><br>
+		<?php } ?> <?php } ?> <!--	   show RAW DELETE (deletes CE&associated data without checking for user generated data	  -->
+		<?php if ($this->userRole == 'admin'
+		          || AuthQuery::getUserId() == Default_SimpleQuery::getWsManagerUserId(Default_SimpleQuery::getWorkshopId($item[View_CeList::COL_CAEX_ID]))) { ?> 
+		<a href="javascript:confirmDelete('Do you really want to delete the calibration exercise:\r\n<?php echo $item[View_CeList::COL_CAEX_NAME]?> ?','/ce/edit/deleterecursive/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>')">RAW
+		DELETE</a><br>
+		<?php } ?> <!--        show RAW DELETE for training CEs (where WS_ID = '') -->
+		<?php if ($item[View_CeList::COL_WORK_ID] == '') { ?> 
+		<a href="javascript:confirmDelete('Do you really want to delete the calibration exercise:\r\n<?php echo $item[View_CeList::COL_CAEX_NAME]?> ?','/ce/edit/mydeleterecursive/<?php echo CalibrationExercise::COL_ID."/".$item[View_CeList::COL_CAEX_ID]?>')">RAW
+		DELETE</a><br>
+		<?php } ?></td>
+		<?php foreach ($this->paginator->getHeader() as $key => $column) {?>
+		<td><?php if($column['raw'] == View_CeList::COL_WORK_NAME){
+			if ($item[View_CeList::COL_WORK_ID] == ''){
+				echo '<i style="color: red">training exercise</i>';
+			}else{
+				echo '<a href="/workshop/search/details/'.View_CeList::COL_WORK_ID.'/'.$item[View_CeList::COL_WORK_ID].'">'.$item[$column['raw']].'</a>';
+			}
+		} elseif ($column['raw'] == KeyTable::COL_FILENAME) {
+			echo '<a href="/protocols/'.$item[KeyTable::COL_FILENAME].'">' . $item[KeyTable::COL_FILENAME] . '</a>';
+		} else {
+			echo $item[$column['raw']];?></td>
+			<?php } ?>
+			<?php } ?>
+			<?php if($this->detailId == $item[CalibrationExercise::COL_ID]){?>
+	</tr>
+	<tr style="background-color: yellow; vertical-align: top;">
+		<td></td>
+		<td><b>description</b><br>
+		<br>
+		<?php echo str_ireplace("\r",'<br>',$item[View_CeList::COL_CAEX_DESC]);?>
+		</td>
+		<!--
+		<td colspan="3"><b>imageset definition</b><br>
+		<?php foreach ($this->imagesetArray as $imageset){?>
+		<ul>
+			<li><?php echo  $imageset[AttributeDescriptor::COL_NAME].' ';
+			if($imageset[AttributeDescriptor::COL_VALUE_LIST] == 1){
+				echo $imageset[ValueList::COL_NAME].' ';
+			}else if($imageset[ImagesetAttributes::COL_VALUE] == null){
+				echo $imageset[ImagesetAttributes::COL_FROM].' - ';
+				echo $imageset[ImagesetAttributes::COL_TO].' ';
+			}else{
+				echo $imageset[ImagesetAttributes::COL_VALUE].' ';
+			}
+			echo $imageset['UNIT'];
+			?></li>
+		</ul>
+		<?php }?></td>
+		-->
+		<td><b>CE Info</b><br>
+		<ul>
+			<li><?php echo $this->ceInfo; ?></li>
+			<li>Coordinators <?php if(is_array($this->ceCoordinators)) {
+				?>
+			<ul>
+			<?php
+			foreach($this->ceCoordinators as $index => $valueArray) {
+				if(array_key_exists(user::COL_LASTNAME,$valueArray)) {
+					?>
+				<li><?php echo $valueArray[user::COL_LASTNAME]; ?></li>
+				<?php
+				}
+			}
+			?>
+			</ul>
+			<?php
+			} else {
+				?>
+			<ul>
+				<li>-</li>
+			</ul>
+			<?php
+			}?></li>
+		</ul>
+		</td>
+		<td colspan="2"><b>shown Attributes</b><br>
+		<?php foreach ($this->shownAttrArray as $attr){?>
+		<ul>
+			<li><?php echo $attr[AttributeDescriptor::COL_NAME]?></li>
+		</ul>
+		<?php }?></td>
+	</tr>
+	<?php }?>
+	<?php }?>
+</table>
+	<?php echo $this->paginationControl($this->paginator, 'Sliding','partials/list_pagination_control.phtml'); ?>
+	<?php } else { ?>
+Nothing found! There are no results for your search.
+	<?php }?>
