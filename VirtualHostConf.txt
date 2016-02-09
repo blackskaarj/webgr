@@ -1,0 +1,21 @@
+# Example of a virtual host configuration
+# for adding and customizing to your apache.conf file inte the 'Main' server configuration
+
+<VirtualHost *:80>
+    DocumentRoot C:/xampp/htdocs/WebGR_PHP/public
+    ServerName webgr.local
+    DirectoryIndex index.php
+    <Directory "C:/xampp/htdocs/WebGR_PHP/public">
+    	#Options Indexes FollowSymLinks Includes ExecCGI
+    	#Order allow,deny
+    	#Allow from all
+    	#AllowOverride All
+		Require all granted
+		RewriteEngine On
+		RewriteCond %{REQUEST_FILENAME} -s [OR]
+		RewriteCond %{REQUEST_FILENAME} -l [OR]
+		RewriteCond %{REQUEST_FILENAME} -d
+		RewriteRule ^.*$ - [NC,L]
+		RewriteRule ^.*$ index.php [NC,L]
+    </Directory>
+</VirtualHost>
